@@ -392,7 +392,7 @@ def dead_strip : Flag<["-"], "dead_strip">,
     Group<grp_opts>;
 def interposable : Flag<["-"], "interposable">,
     HelpText<"Indirects access to all to exported symbols in a dylib">,
-    Group<grp_rare>;
+    Group<grp_opts>;
 def order_file : Separate<["-"], "order_file">,
     MetaVarName<"<file>">,
     HelpText<"Layout functions and data according to specification in <file>">,
