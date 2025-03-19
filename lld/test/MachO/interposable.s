@@ -7,8 +7,9 @@
 # RUN: %lld -interposable -lSystem -o %t/main %t/main.o %t/2.o %t/3.o
 # RUN: llvm-objdump  --macho --lazy-bind %t/main | FileCheck %s --check-prefix BUNDLE-OBJ
 # BUNDLE-OBJ: segment  section             address            dylib                 symbol
-# BUNDLE-OBJ: __DATA   __la_symbol_ptr     0x{{[0-9a-f]*}}    flat-namespace        _main
-# BUNDLE-OBJ: __DATA   __la_symbol_ptr     0x{{[0-9a-f]*}}    flat-namespace        my_func
+# BUNDLE-OBJ-NEXT: __DATA   __la_symbol_ptr     0x[[#%x,]]    flat-namespace        _main
+# BUNDLE-OBJ: __DATA   __la_symbol_ptr     0x[[#%x,]]    flat-namespace        my_func
+# BUNDLE-OBJ-EMPTY:
 
 #--- 2.s
 # my_lib: This contains the exported function
