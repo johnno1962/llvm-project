@@ -391,7 +391,7 @@ def dead_strip : Flag<["-"], "dead_strip">,
     HelpText<"Remove unreachable functions and data">,
     Group<grp_opts>;
 def interposable : Flag<["-"], "interposable">,
-    HelpText<"Indirects access to all to exported symbols in a dylib">,
+    HelpText<"Indirects access to all exported symbols in an image">,
     Group<grp_opts>;
 def order_file : Separate<["-"], "order_file">,
     MetaVarName<"<file>">,
