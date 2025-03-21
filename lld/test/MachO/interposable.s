@@ -4,12 +4,17 @@
 # RUN: llvm-mc -filetype=obj -triple=x86_64-apple-darwin %t/3.s -o %t/3.o
 # RUN: llvm-mc -filetype=obj -triple=x86_64-apple-darwin %t/main.s -o %t/main.o
 
+# RUN: %lld -lSystem -o %t/main %t/main.o %t/2.o %t/3.o
+# RUN: llvm-objdump  --macho --lazy-bind %t/main | FileCheck %s --check-prefix BASE-OBJ
+# BASE-OBJ: segment  section             address            dylib                 symbol
+# BASE-OBJ-EMPTY:
+
 # RUN: %lld -interposable -lSystem -o %t/main %t/main.o %t/2.o %t/3.o
-# RUN: llvm-objdump  --macho --lazy-bind %t/main | FileCheck %s --check-prefix BUNDLE-OBJ
-# BUNDLE-OBJ: segment  section             address            dylib                 symbol
-# BUNDLE-OBJ-NEXT: __DATA   __la_symbol_ptr     0x[[#%x,]]    flat-namespace        _main
-# BUNDLE-OBJ: __DATA   __la_symbol_ptr     0x[[#%x,]]    flat-namespace        my_func
-# BUNDLE-OBJ-EMPTY:
+# RUN: llvm-objdump  --macho --lazy-bind %t/main | FileCheck %s --check-prefix INTER-OBJ
+# INTER-OBJ: segment  section             address            dylib                 symbol
+# INTER-OBJ-NEXT: __DATA   __la_symbol_ptr     0x[[#%x,]]    flat-namespace        _main
+# INTER-OBJ: __DATA   __la_symbol_ptr     0x[[#%x,]]    flat-namespace        my_func
+# INTER-OBJ-EMPTY:
 
 #--- 2.s
 # my_lib: This contains the exported function
